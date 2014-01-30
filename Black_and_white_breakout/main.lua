@@ -77,11 +77,9 @@ function mainMenu()
 	mmScreen.x = _W --set main menu x coordinate
 	mmScreen.y = _H --set main menu y coordinate
 	
-	--TODO change this to a native vector shape 
-	--use  -- display.newRect( [parentGroup,] left, top, width, height )
-	playBtn = display.newRect(_W, _H + 50, 80, 16)
+	playBtn = display.newImage("playbtn.png") --get graphic for play button
 	playBtn:setReferencePoint(display.CenterReferencePoint) --set reference point 
-	--playBtn.x = _W; playBtn.y = _H + 50
+	playBtn.x = _W; playBtn.y = _H + 50
 	playBtn.name = "playbutton"
 
 	menuScreenGroup:insert(mmScreen)
@@ -110,12 +108,15 @@ function addGameScreen()
 	background.x = _W 
 	background.y = _H
 	
-	paddle = display.newImage("paddle.png")
-	paddle.x = 240; paddle.y = 300
+	--TODO change this to a native vector shape 
+	--use  -- display.newRect( [parentGroup,] left, top, width, height )
+	paddle = display.newRect(_W, _H + 50, 80, 2 )
+	paddle.x = _W; paddle.y = _H + 50
 	paddle.name = "paddle"
-	
-	ball = display.newImage("ball.png")
-	ball.x = 240; ball.y = 290
+
+	--TODO change this to vector shape
+	--use --display.newCircle( xCenter, yCenter, radius )
+	ball = display.newCircle( 240, 290, 2 )
 	ball.name = "ball"
 	
 	-- Text
@@ -218,10 +219,9 @@ function gameLevel1()
 		for column = 0, numOfColumns - 1 do
 		
 			-- Create a brick
-			local brick = display.newImage("brick.png")
+			--TODO fix vector bricks
+			local brick = newRect( brickPlacement.x + (column * brickWidth), brickPlacement.y + (row * brickHeight), 35, 15 )
 			brick.name = "brick"
-			brick.x = brickPlacement.x + (column * brickWidth)
-			brick.y = brickPlacement.y + (row * brickHeight)
 			physics.addBody(brick, "static", {density = 1, friction = 0, bounce = 0})
 			bricks.insert(bricks, brick)
 
