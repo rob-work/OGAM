@@ -1,3 +1,6 @@
+--Breakout Game based on Breakout in "Corona SDK Mobile Game development - Fernandez, Michelle, M."
+--Adapted by Rob Englebright to use the physics engine
+
 -- Hide Status Bar
 display.setStatusBar(display.HiddenStatusBar)
 
