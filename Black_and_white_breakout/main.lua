@@ -1,9 +1,8 @@
 -- Hide Status Bar
-
 display.setStatusBar(display.HiddenStatusBar)
 
 -- Physics Engine - Box 2D
--- notice these are globals
+-- notice these are globals?
 		
 local physics = require "physics"
 physics.start() -- other options "pause", or "stop" which destroys the world
@@ -24,38 +23,32 @@ physics.setScale(60) -- pixel/metre ratio - higher for hi res devices
 --physics.setVelocityIterations(3) -default- engine velocity calculation accuracy/frame
 
 -- Accelerometer
-
 system.setAccelerometerInterval( 100 ) -- range is 10Hz to 100Hz, lower promotes better battery life
 
 -- Menu Screen
-
 local menuScreenGroup	-- display.newGroup()
 local mmScreen
 local playBtn
 
 -- Game Screen
-
 local background
 local paddle
 local brick
 local ball
 
 -- Score/Level Text
-
 local scoreText
 local scoreNum
 local levelText
 local levelNum
 
 -- alertDisplayGroup
-
 local alertDisplayGroup	 -- display.newGroup()
 local alertBox
 local conditionDisplay
 local messageText
 
 -- Variables
-
 local _W = display.contentWidth / 2
 local _H = display.contentHeight / 2
 local bricks = display.newGroup()
@@ -73,7 +66,6 @@ local gameEvent = ""
 local isSimulator = "simulator" == system.getInfo("environment")
 
 -- Main Function
-
 function main()
 	mainMenu()
 end
@@ -85,16 +77,17 @@ function mainMenu()
 	mmScreen.x = _W --set main menu x coordinate
 	mmScreen.y = _H --set main menu y coordinate
 	
-	playBtn = display.newImage("playbtn.png") --get graphic for play button
+	--TODO change this to a native vector shape 
+	--use  -- display.newRect( [parentGroup,] left, top, width, height )
+	playBtn = display.newRect(_W, _H + 50, 80, 16)
 	playBtn:setReferencePoint(display.CenterReferencePoint) --set reference point 
-	playBtn.x = _W; playBtn.y = _H + 50
+	--playBtn.x = _W; playBtn.y = _H + 50
 	playBtn.name = "playbutton"
 
 	menuScreenGroup:insert(mmScreen)
 	menuScreenGroup:insert(playBtn)
 	
-	-- Button Listeners
-	
+	-- Button Listeners	
 	playBtn:addEventListener("tap", loadGame)
 end
 
@@ -399,8 +392,7 @@ function changeLevel2()
 	gameLevel2()
 	
 	
-	-- Start
-	
+	-- Start	
 	background:addEventListener("tap", startGame)
 end
 
@@ -437,7 +429,6 @@ function alertScreen(title, message)
 end
 
 -- WIN/LOSE ARGUMENT
-
 function restart()
 	if gameEvent == "win" and currentLevel == 1 then
 		currentLevel = currentLevel + 1
