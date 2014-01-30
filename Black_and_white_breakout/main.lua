@@ -1,5 +1,5 @@
 --Breakout Game based on Breakout in "Corona SDK Mobile Game development - Fernandez, Michelle, M."
---Adapted by Rob Englebright to use the physics engine
+--Adapted by Rob Englebright to make more use of the physics engine and Graphics2.0
 
 -- Hide Status Bar
 display.setStatusBar(display.HiddenStatusBar)
@@ -80,6 +80,7 @@ function mainMenu()
 	mmScreen.x = _W --set main menu x coordinate
 	mmScreen.y = _H --set main menu y coordinate
 	
+	--TODO change referencePoints to Anchor Points
 	playBtn = display.newImage("playbtn.png") --get graphic for play button
 	playBtn:setReferencePoint(display.CenterReferencePoint) --set reference point 
 	playBtn.x = _W; playBtn.y = _H + 50
@@ -123,17 +124,18 @@ function addGameScreen()
 	ball.name = "ball"
 	
 	-- Text
-	
-	scoreText = display.newText("Score:", 5, 2, "Arial", 14)
+	-- The Narrow system font in iOS7 is "Helvetica Neue UltraLight"
+	--TODO change the location of the text by using Anchor points
+	scoreText = display.newText("Score:", 5, 2, "Helvetica Neue UltraLight", 48)
 	scoreText:setTextColor(255, 255, 255, 255)
 	
-	scoreNum = display.newText("0", 54, 2, "Arial", 14)
+	scoreNum = display.newText("0", 250, 2, "Helvetica Neue UltraLight", 48)
 	scoreNum:setTextColor(255, 255, 255, 255)
 	
-	levelText = display.newText("Level:", 420, 2, "Arial", 14)
+	levelText = display.newText("Level:", 800, 2, "Helvetica Neue UltraLight", 48)
 	levelText:setTextColor(255, 255, 255, 255)
 	
-	levelNum = display.newText("1", 460, 2, "Arial", 14)
+	levelNum = display.newText("1", 960, 2, "Helvetica Neue UltraLight", 48)
 	levelNum:setTextColor(255, 255, 255, 255)
 	
 	-- Build Level Bricks 
@@ -223,7 +225,7 @@ function gameLevel1()
 		
 			-- Create a brick
 			--TODO fix vector bricks
-			local brick = newRect( brickPlacement.x + (column * brickWidth), brickPlacement.y + (row * brickHeight), 35, 15 )
+			local brick = display.newRect( brickPlacement.x + (column * brickWidth), brickPlacement.y + (row * brickHeight), 35, 15 )
 			brick.name = "brick"
 			physics.addBody(brick, "static", {density = 1, friction = 0, bounce = 0})
 			bricks.insert(bricks, brick)
@@ -299,7 +301,7 @@ function removeBrick(event)
 		score = score + 1
 		scoreNum.text = score * scoreIncrease
 		scoreNum:setReferencePoint(display.CenterLeftReferencePoint)
-		scoreNum.x = 54 
+		scoreNum.x = 250 
 	end
 	
 	-- Check if all bricks are destroyed
@@ -407,7 +409,7 @@ function alertScreen(title, message)
 	alertBox.x = 240; alertBox.y = 160
 	transition.from(alertBox, {time = 500, xScale = 0.5, yScale = 0.5, transition = easing.outExpo})
 	
-	conditionDisplay = display.newText(title, 0, 0, "Arial", 38)
+	conditionDisplay = display.newText(title, 0, 0, "Helvetica Neue UltraLight", 38)
 	conditionDisplay:setTextColor(255,255,255,255)
 	conditionDisplay.xScale = 0.5
 	conditionDisplay.yScale = 0.5
@@ -415,7 +417,7 @@ function alertScreen(title, message)
 	conditionDisplay.x = display.contentCenterX
 	conditionDisplay.y = display.contentCenterY - 15
 	
-	messageText = display.newText(message, 0, 0, "Arial", 24)
+	messageText = display.newText(message, 0, 0, "Helvetica Neue UltraLight", 24)
 	messageText:setTextColor(255,255,255,255)
 	messageText.xScale = 0.5
 	messageText.yScale = 0.5
