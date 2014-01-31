@@ -11,7 +11,7 @@ physics.start() -- other options "pause", or "stop" which destroys the world
 physics.setGravity(0, 0) -- gx, gy -- gy = 9.8 for normal gravity
 physics.setScale(60) -- pixel/metre ratio - higher for hi res devices
 
---physics.setDrawMode("hybrid") -- other options "debug" or "normal"
+physics.setDrawMode("hybrid") -- other options "debug" or "normal"
 --[[
     orange - dynamic physics bodies (default)
     dark blue - kinematic physics bodies
@@ -51,6 +51,8 @@ local conditionDisplay
 local messageText
 
 -- Variables
+local width = display.contentWidth
+local height = display.contentHeight
 local _W = display.contentWidth / 2
 local _H = display.contentHeight / 2
 local bricks = display.newGroup()
@@ -65,7 +67,7 @@ local vx = 3
 local vy = -3
 local gameEvent = ""
 
-local isSimulator = "simulator" == system.getInfo("environment")
+local isSimulator = "False" == system.getInfo("environment")
 
 -- Main Function
 function main()
@@ -108,9 +110,12 @@ end
 
 function addGameScreen()
 
-	background = display.newImage("bg.png", 0, 0, true )
-	background.x = _W 
-	background.y = _H
+	--TODO- find out why the fill color and stroke width etc aren't working
+	background = display.newRect( 0, 0, width, height)
+
+	--TODO change background colour to match level
+	background:setFillColor( 200, 20, 20)
+    --background:setStrokeColor( 1, 0, 0 )
 	
 	--TODO change this to a native vector shape 
 	--use  -- display.newRect( [parentGroup,] left, top, width, height )
@@ -118,7 +123,7 @@ function addGameScreen()
 	paddle.x = _W; paddle.y = _H + 50
 	paddle.name = "paddle"
 
-	--TODO change this to vector shape
+	--TODO change location coords to relative value
 	--use --display.newCircle( xCenter, yCenter, radius )
 	ball = display.newCircle( 240, 290, 2 )
 	ball.name = "ball"
@@ -209,6 +214,8 @@ function startGame()
 end
 
 -- HOW TO BUILD BLOCKS
+--turn level into a function that takes it's level from outside - and rows and columns from a lookup?
+--
 
 function gameLevel1()
 
@@ -226,6 +233,9 @@ function gameLevel1()
 			-- Create a brick
 			--TODO fix vector bricks
 			local brick = display.newRect( brickPlacement.x + (column * brickWidth), brickPlacement.y + (row * brickHeight), 35, 15 )
+			brick:setFillColor( 0, 0, 0 ) --fill is black
+			brick:setStrokeColor( 255, 255, 255 ) -- outline our bricks in white
+			brick.strokeWidth = 2
 			brick.name = "brick"
 			physics.addBody(brick, "static", {density = 1, friction = 0, bounce = 0})
 			bricks.insert(bricks, brick)
@@ -234,6 +244,7 @@ function gameLevel1()
 	end
 end
 
+-- TODO switch out this and get the change of level pararmeters from a table. 1-10 decides bricks etc. 20, 30 etc decides sizeof paddle -speed 
 function gameLevel2()
 
 	currentLevel = 2
@@ -242,6 +253,7 @@ function gameLevel2()
 	
 	local numOfRows = 5
 	local numOfColumns = 8
+
 	local brickPlacement = {x = (_W) - (brickWidth * numOfColumns ) / 2  + 20, y = 50}
 	
 	for row = 0, numOfRows - 1 do
