@@ -5,7 +5,6 @@
 display.setStatusBar(display.HiddenStatusBar)
 
 -- Physics Engine - Box 2D
--- notice these are globals?
 		
 local physics = require "physics"
 physics.start() -- other options "pause", or "stop" which destroys the world
@@ -55,12 +54,12 @@ local messageText
 local _W = display.contentWidth / 2
 local _H = display.contentHeight / 2
 local bricks = display.newGroup()
-local brickWidth = 35
-local brickHeight = 15
+local brickWidth = 50
+local brickHeight = 20
 local row
 local column
 local score = 0
-local scoreIncrease = 100
+local scoreIncrease = 1
 local currentLevel
 local vx = 3
 local vy = -3
@@ -76,14 +75,15 @@ end
 function mainMenu()	
 	menuScreenGroup = display.newGroup() 
 
-	mmScreen = display.newImage("mmScreen.png", 0, 0, true) --get main menu splashscreen
+	mmScreen = display.newText( "Black and White Breakout", _W, _H, "Helvetica Neue UltraLight", 48 ) 
 	mmScreen.x = _W --set main menu x coordinate
-	mmScreen.y = _H --set main menu y coordinate
+	--mmScreen.y = _H --set main menu y coordinate
 	
 	--TODO change referencePoints to Anchor Points
-	playBtn = display.newImage("playbtn.png") --get graphic for play button
+	-- change images to text -- display.newText( [parentGroup,] text, x, y, font, fontSize )
+	playBtn = display.newText( "Play", _W, _H + 50, "Helvetica Neue UltraLight", 48)
 	playBtn:setReferencePoint(display.CenterReferencePoint) --set reference point 
-	playBtn.x = _W; playBtn.y = _H + 50
+	playBtn.x = _W --in Graphics 2 this all goesout the window, as central position
 	playBtn.name = "playbutton"
 
 	menuScreenGroup:insert(mmScreen)
@@ -405,20 +405,21 @@ end
 function alertScreen(title, message)
 	gameListeners("remove")
 	
-	alertBox = display.newImage("alertBox.png")
-	alertBox.x = 240; alertBox.y = 160
+	--TODO: use display.newRect( x, y, width, height )
+	alertBox = display.newRect(_W -150,_H - 100, 300, 200)
+	--TODO add stroke and fill to box so can see text
 	transition.from(alertBox, {time = 500, xScale = 0.5, yScale = 0.5, transition = easing.outExpo})
 	
-	conditionDisplay = display.newText(title, 0, 0, "Helvetica Neue UltraLight", 38)
-	conditionDisplay:setTextColor(255,255,255,255)
+	conditionDisplay = display.newText(title, 0, 0, "Helvetica Neue Light", 48)
+	conditionDisplay:setTextColor(0,0,0,255) --set to black
 	conditionDisplay.xScale = 0.5
 	conditionDisplay.yScale = 0.5
 	conditionDisplay:setReferencePoint(display.CenterReferencePoint)
 	conditionDisplay.x = display.contentCenterX
 	conditionDisplay.y = display.contentCenterY - 15
 	
-	messageText = display.newText(message, 0, 0, "Helvetica Neue UltraLight", 24)
-	messageText:setTextColor(255,255,255,255)
+	messageText = display.newText(message, 0, 0, "Helvetica Neue Light", 48)
+	messageText:setTextColor(0,0,0,255) --set to black
 	messageText.xScale = 0.5
 	messageText.yScale = 0.5
 	messageText:setReferencePoint(display.CenterReferencePoint)
